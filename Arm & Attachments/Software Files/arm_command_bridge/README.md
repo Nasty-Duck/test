@@ -37,7 +37,3 @@ Verify it before moving hardware:
 ```bash
 curl http://127.0.0.1:3000/health
 ```
-
-## Safety
-
-The bridge only maps the three documented arm fields and rejects unknown action values. Test with the arm supported/clear of people and use the app's stop button before testing each direction. The `POSITIVE` / `NEGATIVE` direction names are logical names; reverse the Arduino direction constants if a motor moves opposite to the desired physical direction.
