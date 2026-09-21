@@ -1,5 +1,4 @@
-import { NativeStackView } from '@react-navigation/native-stack';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { normalize } from '../functionality/display';
 
 const ControllerStyle = StyleSheet.create({
@@ -172,6 +171,26 @@ const ControllerStyle = StyleSheet.create({
     flexDirection: 'column',
   },
 
+  connectionBody: {
+    width: '100%',
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+
+  connectionCard: {
+    width: '70%',
+    height: '78%',
+    backgroundColor: '#3a3d3d',
+    borderWidth: 1,
+    borderColor: '#646a6a',
+    shadowColor: '#000',
+    shadowOpacity: 0.25,
+    shadowRadius: 12,
+    elevation: 6,
+  },
+
 
   connectButton: {
     flexDirection: 'row',
@@ -189,6 +208,58 @@ const ControllerStyle = StyleSheet.create({
     width: '30%',
     marginTop: 5,
     marginBottom: 15
+  },
+
+  primaryConnectButton: {
+    width: '44%',
+    backgroundColor: '#fff',
+    marginBottom: 4,
+  },
+
+  offlinePreviewButton: {
+    width: '44%',
+    minHeight: 34,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 6,
+  },
+
+  offlinePreviewButtonText: {
+    color: '#c7d0d0',
+    fontFamily: 'NASA',
+    fontSize: normalize(18, 1.2),
+    textDecorationLine: 'underline',
+  },
+
+  findRoverButton: {
+    width: '44%',
+    minHeight: 44,
+    borderWidth: 2,
+    borderColor: '#fff',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 6,
+  },
+
+  findRoverButtonDisabled: {
+    opacity: 0.55,
+  },
+
+  findRoverButtonText: {
+    color: '#fff',
+    fontFamily: 'NASA',
+    fontSize: normalize(27, 1.2),
+  },
+
+  discoveryMessage: {
+    minHeight: 30,
+    width: '80%',
+    marginVertical: 5,
+    color: '#d7dddd',
+    textAlign: 'center',
+    fontFamily: 'NASA',
+    fontSize: normalize(17, 1.2),
   },
 
   statusButton: {
