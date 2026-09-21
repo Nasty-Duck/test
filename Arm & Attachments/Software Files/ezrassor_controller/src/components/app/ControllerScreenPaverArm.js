@@ -42,6 +42,7 @@ export default class ControllerScreen extends React.Component {
       isShoulderSelected: false,
       isForearmSelected: false,
       isEndEffectorSelected: false,
+      offlineMode: false,
     }; 
 
     this.EZRASSOR = new EZRASSOR(this.state.ip);
@@ -54,24 +55,27 @@ export default class ControllerScreen extends React.Component {
       this.changeIP(this.props.route.params.currentIp);
     }
 
-    this.setState({ isLoading: false });
+    const offlineMode = this.props.route.params?.offlineMode === true;
+    this.setState({ isLoading: false, offlineMode });
 
     this._unsubscribe = this.props.navigation.addListener('focus', async () => {
       this.getIpFromStorage();
     });
 
     // Set up the connection polling logic.
-    let pollCount = 0;
-    this.connectionPoller = setInterval(async () => {
-      if (await isIpReachable(this.state.ip, CONNECTION_POLLING_TIMEOUT)) {
-        if (CONNECTION_POLLING_VERBOSE) {
-          console.log(`Connection poll attempt ${++pollCount} succeeded...`);
+    if (!offlineMode) {
+      let pollCount = 0;
+      this.connectionPoller = setInterval(async () => {
+        if (await isIpReachable(this.state.ip, CONNECTION_POLLING_TIMEOUT)) {
+          if (CONNECTION_POLLING_VERBOSE) {
+            console.log(`Connection poll attempt ${++pollCount} succeeded...`);
+          }
+        } else {
+          console.log(`Dropped connection from ${this.state.ip}... redirecting to connection screen.`);
+          this.props.navigation.replace('Connection Status Screen', { screen: 'roverDisconnected' });
         }
-      } else {
-        console.log(`Dropped connection from ${this.state.ip}... redirecting to connection screen.`);
-        this.props.navigation.replace('Connection Status Screen', { screen: 'roverDisconnected' });
-      }
-    }, CONNECTION_POLLING_INTERVAL);
+      }, CONNECTION_POLLING_INTERVAL);
+    }
 
     const pollInterval = (CONNECTION_POLLING_INTERVAL / 1000.0).toFixed(2);
     const pollTimeout = (CONNECTION_POLLING_TIMEOUT / 1000.0).toFixed(2);
@@ -339,7 +343,7 @@ export default class ControllerScreen extends React.Component {
           {/* BACK button to go back to the controller screen */}
           <TouchableOpacity
             style={{ flex: 1, padding: 3 }}
-            onPress={() => this.props.navigation.replace("Controller Screen", { currentIp: this.state.ip })}
+            onPress={() => this.props.navigation.replace("Controller Screen", { currentIp: this.state.ip, offlineMode: this.state.offlineMode })}
             >
               <FontAwesome
                 style={{ marginLeft: 'auto' }}
@@ -406,4 +410,4 @@ export default class ControllerScreen extends React.Component {
       </View>
     );
   }
-} 
+}
