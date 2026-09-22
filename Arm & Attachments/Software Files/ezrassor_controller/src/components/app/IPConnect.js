@@ -204,8 +204,8 @@ export default class IPConnect extends React.Component {
               {/* Text input for IP + port. */}
               <TextInput
                 ref="myInput"
-                fontSize={normalize(45, 1.8)}
-                style={ControllerStyle.ipInputBox}
+                fontSize={normalize(38, 1.2)}
+                style={[ControllerStyle.ipInputBox, ControllerStyle.connectionIpInput]}
                 onChangeText={(text) => this.changeIP(text)}
                 value={this.state.ip}
                 marginVertical={8}

@@ -182,6 +182,8 @@ const ControllerStyle = StyleSheet.create({
   connectionCard: {
     width: '70%',
     height: '78%',
+    marginVertical: 0,
+    paddingVertical: 6,
     backgroundColor: '#3a3d3d',
     borderWidth: 1,
     borderColor: '#646a6a',
@@ -219,7 +221,7 @@ const ControllerStyle = StyleSheet.create({
 
   connectionActionRow: {
     width: '62%',
-    height: (2 * normalize(45, 1.5)),
+    height: normalize(48, 1.2),
     flexDirection: 'row',
     alignItems: 'stretch',
     justifyContent: 'space-between',
@@ -246,7 +248,7 @@ const ControllerStyle = StyleSheet.create({
 
   findRoverButton: {
     width: '44%',
-    minHeight: 44,
+    minHeight: 36,
     borderWidth: 2,
     borderColor: '#fff',
     borderRadius: 8,
@@ -266,13 +268,18 @@ const ControllerStyle = StyleSheet.create({
   },
 
   discoveryMessage: {
-    minHeight: 30,
+    minHeight: 22,
     width: '80%',
-    marginVertical: 5,
+    marginVertical: 2,
     color: '#d7dddd',
     textAlign: 'center',
     fontFamily: 'NASA',
     fontSize: normalize(17, 1.2),
+  },
+
+  connectionIpInput: {
+    height: normalize(58, 1.2),
+    marginVertical: 5,
   },
 
   statusButton: {

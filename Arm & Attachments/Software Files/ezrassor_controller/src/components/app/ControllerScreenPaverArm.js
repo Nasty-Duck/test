@@ -9,6 +9,7 @@ import {
   Text,
   View,
   Image,
+  ImageBackground,
   TouchableHighlight,
   TouchableOpacity,
   StatusBar,
@@ -195,6 +196,14 @@ export default class ControllerScreen extends React.Component {
     this.sendOperation(part, operation);
   }
 
+  getSelectedArmVisual() {
+    if (this.state.isPlateSelected) return require('../../../assets/PaverArmBase.png');
+    if (this.state.isShoulderSelected) return require('../../../assets/PaverArmShoulder.png');
+    if (this.state.isForearmSelected) return require('../../../assets/PaverArmForearm.png');
+    if (this.state.isEndEffectorSelected) return require('../../../assets/PaverArmWrist.png');
+    return require('../../../assets/PaverArmDefault.png');
+  }
+
   renderJointControl(label, part, positiveLabel, negativeLabel, positiveIcon, negativeIcon, textStyle) {
     return (
       <View style={ControllerStyle.PaverArmBaseButton}>
@@ -367,14 +376,19 @@ export default class ControllerScreen extends React.Component {
         <FadeInView style={ControllerStyle.buttonLayoutContainer}>
           <View style={ControllerStyle.ArmContainer}> 
             <View style={{flex: 2, flexDirection: 'row'}}>
-              <View style={ControllerStyle.armControlColumn}>
+              <ImageBackground
+                source={this.getSelectedArmVisual()}
+                style={ControllerStyle.armControlColumn}
+                imageStyle={ControllerStyle.armControlBackgroundImage}
+                resizeMode="contain"
+              >
                 {this.renderJointControl(
-                  'Shoulder',
-                  Robot.SHOULDER,
+                  'Wrist',
+                  Robot.ENDEFFECTOR,
                   'Up',
                   'Down',
-                  'chevron-up',
-                  'chevron-down',
+                  'arrow-circle-up',
+                  'arrow-circle-down',
                   ControllerStyle.mainButtonTextVertical
                 )}
                 {this.renderJointControl(
@@ -382,27 +396,27 @@ export default class ControllerScreen extends React.Component {
                   Robot.FOREARM,
                   'Up',
                   'Down',
-                  'chevron-up',
-                  'chevron-down',
+                  'arrow-circle-up',
+                  'arrow-circle-down',
                   ControllerStyle.mainButtonTextVertical
                 )}
                 {this.renderJointControl(
-                  'Wrist',
-                  Robot.ENDEFFECTOR,
+                  'Shoulder',
+                  Robot.SHOULDER,
                   'Up',
                   'Down',
-                  'chevron-up',
-                  'chevron-down',
+                  'arrow-circle-up',
+                  'arrow-circle-down',
                   ControllerStyle.mainButtonTextVertical
                 )}
-              </View>
+              </ImageBackground>
 
-              <View style={ControllerStyle.PaverArmBackground}>
-                {this.renderDefaultArm()}
-                {this.renderShoulderArm()}
-                {this.renderForearmArm()}
-                {this.renderEndEffectorArm()}
-              
+              <View style={ControllerStyle.cameraPlaceholder}>
+                <FontAwesome name="video-camera" size={44} color="#9ba4a4" />
+                <Text style={ControllerStyle.cameraPlaceholderTitle}>CAMERA FEED</Text>
+                <Text style={ControllerStyle.cameraPlaceholderText}>
+                  Reserved for the arm camera
+                </Text>
               </View>
             </View>
           </View>
