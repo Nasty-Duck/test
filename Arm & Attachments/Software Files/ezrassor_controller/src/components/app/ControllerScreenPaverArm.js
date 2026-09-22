@@ -387,8 +387,8 @@ export default class ControllerScreen extends React.Component {
                   Robot.ENDEFFECTOR,
                   'Up',
                   'Down',
-                  'arrow-circle-up',
-                  'arrow-circle-down',
+                  'arrow-up',
+                  'arrow-down',
                   ControllerStyle.mainButtonTextVertical
                 )}
                 {this.renderJointControl(
@@ -396,8 +396,8 @@ export default class ControllerScreen extends React.Component {
                   Robot.FOREARM,
                   'Up',
                   'Down',
-                  'arrow-circle-up',
-                  'arrow-circle-down',
+                  'arrow-up',
+                  'arrow-down',
                   ControllerStyle.mainButtonTextVertical
                 )}
                 {this.renderJointControl(
@@ -405,8 +405,8 @@ export default class ControllerScreen extends React.Component {
                   Robot.SHOULDER,
                   'Up',
                   'Down',
-                  'arrow-circle-up',
-                  'arrow-circle-down',
+                  'arrow-up',
+                  'arrow-down',
                   ControllerStyle.mainButtonTextVertical
                 )}
               </ImageBackground>

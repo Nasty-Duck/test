@@ -143,7 +143,7 @@ const ControllerStyle = StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center',
     margin: 20,
-    padding: 10
+    paddingVertical: 8,
   },
 
   PaverArmBaseButton: {
@@ -224,6 +224,7 @@ const ControllerStyle = StyleSheet.create({
     fontFamily: 'NASA', 
     color: '#fff',
     textAlign: 'center',
+    paddingTop: 3,
   },
 
   textSmallCenter: {

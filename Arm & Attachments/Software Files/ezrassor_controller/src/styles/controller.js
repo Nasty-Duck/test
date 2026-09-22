@@ -113,12 +113,13 @@ const ControllerStyle = StyleSheet.create({
 
   screenLayout: {
     width: '100%',
-    height: '100%',
+    flex: 1,
+    minHeight: '100%',
     backgroundColor: '#2E3030',
     justifyContent: 'center', //Centered vertically
     alignItems: 'center',
     flexDirection: 'column',
-    overflow: 'hidden'
+    overflow: 'visible'
   },
 
   title: {
@@ -177,6 +178,8 @@ const ControllerStyle = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingTop: 8,
+    paddingBottom: 24,
   },
 
   connectionCard: {
@@ -221,7 +224,7 @@ const ControllerStyle = StyleSheet.create({
 
   connectionActionRow: {
     width: '62%',
-    height: normalize(48, 1.2),
+    height: normalize(54, 1),
     flexDirection: 'row',
     alignItems: 'stretch',
     justifyContent: 'space-between',
@@ -244,6 +247,10 @@ const ControllerStyle = StyleSheet.create({
     fontFamily: 'NASA',
     fontSize: normalize(20, 1.2),
     textAlign: 'center',
+  },
+
+  connectionActionText: {
+    fontSize: normalize(27, 1),
   },
 
   findRoverButton: {

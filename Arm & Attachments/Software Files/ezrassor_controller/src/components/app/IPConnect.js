@@ -247,7 +247,7 @@ export default class IPConnect extends React.Component {
                     this.redirectBasedOnReachability();
                   }}
                 >
-                  <Text style={[ControllerStyle.connectButtonText]}>
+                  <Text style={[ControllerStyle.connectButtonText, ControllerStyle.connectionActionText]}>
                     CONNECT
                   </Text>
                   <Image source={arrowright} style={ControllerStyle.arrowRight} />
