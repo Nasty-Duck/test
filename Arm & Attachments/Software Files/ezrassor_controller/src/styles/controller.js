@@ -1,5 +1,4 @@
-import { NativeStackView } from '@react-navigation/native-stack';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { normalize } from '../functionality/display';
 
 const ControllerStyle = StyleSheet.create({
@@ -172,6 +171,28 @@ const ControllerStyle = StyleSheet.create({
     flexDirection: 'column',
   },
 
+  connectionBody: {
+    width: '100%',
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+
+  connectionCard: {
+    width: '70%',
+    height: '78%',
+    marginVertical: 0,
+    paddingVertical: 6,
+    backgroundColor: '#3a3d3d',
+    borderWidth: 1,
+    borderColor: '#646a6a',
+    shadowColor: '#000',
+    shadowOpacity: 0.25,
+    shadowRadius: 12,
+    elevation: 6,
+  },
+
 
   connectButton: {
     flexDirection: 'row',
@@ -189,6 +210,76 @@ const ControllerStyle = StyleSheet.create({
     width: '30%',
     marginTop: 5,
     marginBottom: 15
+  },
+
+  primaryConnectButton: {
+    flex: 1,
+    backgroundColor: '#fff',
+    margin: 0,
+    height: '100%',
+  },
+
+  connectionActionRow: {
+    width: '62%',
+    height: normalize(48, 1.2),
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
+    columnGap: 12,
+    marginTop: 2,
+    marginBottom: 8,
+  },
+
+  offlinePreviewButton: {
+    flex: 1,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+  },
+
+  offlinePreviewButtonText: {
+    color: '#202323',
+    fontFamily: 'NASA',
+    fontSize: normalize(20, 1.2),
+    textAlign: 'center',
+  },
+
+  findRoverButton: {
+    width: '44%',
+    minHeight: 36,
+    borderWidth: 2,
+    borderColor: '#fff',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 6,
+  },
+
+  findRoverButtonDisabled: {
+    opacity: 0.55,
+  },
+
+  findRoverButtonText: {
+    color: '#fff',
+    fontFamily: 'NASA',
+    fontSize: normalize(27, 1.2),
+  },
+
+  discoveryMessage: {
+    minHeight: 22,
+    width: '80%',
+    marginVertical: 2,
+    color: '#d7dddd',
+    textAlign: 'center',
+    fontFamily: 'NASA',
+    fontSize: normalize(17, 1.2),
+  },
+
+  connectionIpInput: {
+    height: normalize(58, 1.2),
+    marginVertical: 5,
   },
 
   statusButton: {
