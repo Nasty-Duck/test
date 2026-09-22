@@ -236,33 +236,35 @@ export default class IPConnect extends React.Component {
                 {this.state.discoveryMessage || 'Find Rover checks the supported local rover addresses.'}
               </Text>
 
-              {/* Connect button. */}
-              <TouchableOpacity
-                activeOpacity={0.95}
-                backgroundColor="#FFFFFF"
-                style={[ControllerStyle.connectButton, ControllerStyle.primaryConnectButton]}
-                onPress={() => {
-                  this.animation.current?.play();
-                  this.redirectBasedOnReachability();
-                }}
-              >
-                <Text style={[ControllerStyle.connectButtonText]}>
-                  CONNECT
-                </Text>
-                <Image source={arrowright} style={ControllerStyle.arrowRight} />
-              </TouchableOpacity>
+              <View style={ControllerStyle.connectionActionRow}>
+                {/* Connect button. */}
+                <TouchableOpacity
+                  activeOpacity={0.95}
+                  backgroundColor="#FFFFFF"
+                  style={[ControllerStyle.connectButton, ControllerStyle.primaryConnectButton]}
+                  onPress={() => {
+                    this.animation.current?.play();
+                    this.redirectBasedOnReachability();
+                  }}
+                >
+                  <Text style={[ControllerStyle.connectButtonText]}>
+                    CONNECT
+                  </Text>
+                  <Image source={arrowright} style={ControllerStyle.arrowRight} />
+                </TouchableOpacity>
 
-              {/* Open the controls without requiring a live rover connection. */}
-              <TouchableOpacity
-                activeOpacity={0.88}
-                accessibilityLabel="Open control interface in offline preview mode"
-                style={ControllerStyle.offlinePreviewButton}
-                onPress={() => this.props.navigation.navigate('Controller Screen', { offlineMode: true })}
-              >
-                <Text style={ControllerStyle.offlinePreviewButtonText}>
-                  OPEN CONTROLS OFFLINE
-                </Text>
-              </TouchableOpacity>
+                {/* Kept beside Connect so it is always visible on short landscape screens. */}
+                <TouchableOpacity
+                  activeOpacity={0.88}
+                  accessibilityLabel="Open control interface in offline preview mode"
+                  style={ControllerStyle.offlinePreviewButton}
+                  onPress={() => this.props.navigation.navigate('Controller Screen', { offlineMode: true })}
+                >
+                  <Text style={ControllerStyle.offlinePreviewButtonText}>
+                    OPEN CONTROLS{`\n`}OFFLINE
+                  </Text>
+                </TouchableOpacity>
+              </View>
 
             </View>
 

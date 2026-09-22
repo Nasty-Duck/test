@@ -211,24 +211,37 @@ const ControllerStyle = StyleSheet.create({
   },
 
   primaryConnectButton: {
-    width: '44%',
+    flex: 1,
     backgroundColor: '#fff',
-    marginBottom: 4,
+    margin: 0,
+    height: '100%',
+  },
+
+  connectionActionRow: {
+    width: '62%',
+    height: (2 * normalize(45, 1.5)),
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
+    columnGap: 12,
+    marginTop: 2,
+    marginBottom: 8,
   },
 
   offlinePreviewButton: {
-    width: '44%',
-    minHeight: 34,
+    flex: 1,
+    backgroundColor: '#fff',
+    borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 6,
+    paddingHorizontal: 8,
   },
 
   offlinePreviewButtonText: {
-    color: '#c7d0d0',
+    color: '#202323',
     fontFamily: 'NASA',
-    fontSize: normalize(18, 1.2),
-    textDecorationLine: 'underline',
+    fontSize: normalize(20, 1.2),
+    textAlign: 'center',
   },
 
   findRoverButton: {
