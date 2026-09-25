@@ -289,6 +289,75 @@ const ControllerStyle = StyleSheet.create({
     marginVertical: 5,
   },
 
+  discoveryModalBackdrop: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.68)',
+    padding: 24,
+  },
+
+  discoveryModalCard: {
+    width: '72%',
+    maxWidth: 720,
+    borderRadius: 14,
+    backgroundColor: '#5d6061',
+    padding: 24,
+  },
+
+  discoveryModalTitle: {
+    fontFamily: 'NASA',
+    fontSize: normalize(30, 1),
+    color: '#fff',
+    marginBottom: 16,
+  },
+
+  discoveredRoverRow: {
+    minHeight: 54,
+    borderRadius: 6,
+    backgroundColor: '#3f4142',
+    marginBottom: 10,
+    paddingHorizontal: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+
+  discoveredRoverText: {
+    fontFamily: 'NASA',
+    fontSize: normalize(19, 1),
+    color: '#fff',
+  },
+
+  discoveredRoverUseText: {
+    fontFamily: 'NASA',
+    fontSize: normalize(18, 1),
+    color: '#fff',
+  },
+
+  noRoversText: {
+    fontFamily: 'NASA',
+    fontSize: normalize(18, 1),
+    lineHeight: normalize(25, 1),
+    color: '#fff',
+    marginBottom: 18,
+  },
+
+  discoveryModalCloseButton: {
+    minHeight: 48,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 6,
+    backgroundColor: '#3f4142',
+    marginTop: 4,
+  },
+
+  discoveryModalCloseText: {
+    fontFamily: 'NASA',
+    fontSize: normalize(19, 1),
+    color: '#fff',
+  },
+
   statusButton: {
     backgroundColor: '#3F4142',
     display: 'flex',

@@ -15,6 +15,10 @@ const ROVER_CANDIDATES = [
   `rerassor.local:${ROVER_PORT}`,
 ];
 
+const ROVER_DISCOVERY_PORT = '5000';
+const ROVER_DISCOVERY_SUBNET = '192.168.10';
+const DISCOVERY_BATCH_SIZE = 20;
+
 /**
  * Check if we can reach a specified IP + port.
  * 
@@ -22,9 +26,11 @@ const ROVER_CANDIDATES = [
  * @param {number} timeoutTime Time before giving up and returning false.
  * @return {Promise<boolean>} True/false if we can reach/not reach the given address.
  */
-export async function isIpReachable(ip, timeoutTime = DEFAULT_TIMEOUT_TIME) {
+export async function isIpReachable(ip, timeoutTime = DEFAULT_TIMEOUT_TIME, verbose = true) {
 
-  console.log('Trying IP in connection.js: ', ip);
+  if (verbose) {
+    console.log('Trying IP in connection.js: ', ip);
+  }
 
   return new Promise((resolve, _) => {
 
@@ -64,4 +70,44 @@ export async function findRover(savedIp = null) {
   }
 
   return null;
+}
+
+/**
+ * Search for all rover services on the standard RE-RASSOR LAN deployment.
+ *
+ * The search intentionally does not use the text field or saved IP: discovery
+ * must work before an operator knows an address.  The deployed rover image
+ * uses port 5000 on the 192.168.10.x LAN; local host names and the legacy
+ * controller addresses are checked too.  Requests are batched so discovery
+ * remains responsive instead of issuing hundreds of connections at once.
+ *
+ * @param {number} timeoutTime Per-address timeout in milliseconds.
+ * @param {number} batchSize Number of concurrent checks.
+ * @return {Promise<string[]>} All reachable rover service addresses.
+ */
+export async function findRovers(timeoutTime = 700, batchSize = DISCOVERY_BATCH_SIZE) {
+  const subnetCandidates = Array.from(
+    { length: 253 },
+    (_, index) => `${ROVER_DISCOVERY_SUBNET}.${index + 2}:${ROVER_DISCOVERY_PORT}`
+  );
+  const candidates = [...new Set([...ROVER_CANDIDATES, ...subnetCandidates])];
+  const found = [];
+
+  for (let index = 0; index < candidates.length; index += batchSize) {
+    const batch = candidates.slice(index, index + batchSize);
+    const results = await Promise.all(
+      batch.map(async (candidate) => ({
+        candidate,
+        reachable: await isIpReachable(candidate, timeoutTime, false)
+      }))
+    );
+
+    results.forEach(({ candidate, reachable }) => {
+      if (reachable) {
+        found.push(candidate);
+      }
+    });
+  }
+
+  return found;
 }

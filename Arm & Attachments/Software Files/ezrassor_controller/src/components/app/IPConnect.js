@@ -5,7 +5,8 @@ import {
   Image,
   StatusBar,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  Modal
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ControllerStyle from 'ezrassor-app/src/styles/controller';
@@ -14,7 +15,7 @@ import logo from 'ezrassor-app/assets/fsiLogo.png';
 import arrowright from 'ezrassor-app/assets/arrowri.png';
 import LottieView from 'lottie-react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { findRover, isIpReachable } from '../../functionality/connection';
+import { findRovers, isIpReachable } from '../../functionality/connection';
 import { normalize } from '../../functionality/display';
 
 const DEFAULT_IP = '192.168.1.2:8080';
@@ -31,7 +32,9 @@ export default class IPConnect extends React.Component {
       isLoading: true,
       ip: null,
       isFindingRover: false,
-      discoveryMessage: ''
+      discoveryMessage: '',
+      discoveredRovers: [],
+      discoveryModalVisible: false,
     };
 
     this.animation = React.createRef(null);
@@ -119,7 +122,7 @@ export default class IPConnect extends React.Component {
     }
   }
 
-  /** Look for the rover at its supported LAN addresses and local host names. */
+  /** Find available rover services without relying on the manual IP field. */
   async findRover() {
     if (this.state.isFindingRover) {
       return;
@@ -127,25 +130,24 @@ export default class IPConnect extends React.Component {
 
     this.setState({
       isFindingRover: true,
-      discoveryMessage: 'Searching the local network for RE-RASSOR…'
+      discoveryMessage: 'Searching the local network for RE-RASSOR…',
+      discoveredRovers: []
     });
 
-    const roverIp = await findRover(this.state.ip);
-
-    if (roverIp) {
-      this.setState({
-        ip: roverIp,
-        isFindingRover: false,
-        discoveryMessage: `RE-RASSOR found at ${roverIp}`
-      });
-      await AsyncStorage.setItem('myIp', roverIp);
-      return;
-    }
-
+    const rovers = await findRovers();
     this.setState({
       isFindingRover: false,
-      discoveryMessage: 'No rover found. Check Wi-Fi, then enter its IP address manually.'
+      discoveryMessage: rovers.length
+        ? `${rovers.length} rover${rovers.length === 1 ? '' : 's'} found.`
+        : 'No rover found on the RE-RASSOR network.',
+      discoveredRovers: rovers,
+      discoveryModalVisible: true,
     });
+  }
+
+  async selectDiscoveredRover(ip) {
+    this.setState({ ip, discoveryModalVisible: false });
+    await AsyncStorage.setItem('myIp', ip);
   }
 
   render() {
@@ -157,6 +159,41 @@ export default class IPConnect extends React.Component {
     return (
       <KeyboardAwareScrollView contentContainerStyle={[ControllerStyle.keyboardAwareScrollView]}>
         <View style={ControllerStyle.screenLayout}>
+
+          <Modal
+            transparent={true}
+            animationType="fade"
+            visible={this.state.discoveryModalVisible}
+            onRequestClose={() => this.setState({ discoveryModalVisible: false })}
+          >
+            <View style={ControllerStyle.discoveryModalBackdrop}>
+              <View style={ControllerStyle.discoveryModalCard}>
+                <Text style={ControllerStyle.discoveryModalTitle}>AVAILABLE ROVERS</Text>
+                {this.state.discoveredRovers.length ? (
+                  this.state.discoveredRovers.map((ip) => (
+                    <TouchableOpacity
+                      key={ip}
+                      style={ControllerStyle.discoveredRoverRow}
+                      onPress={() => this.selectDiscoveredRover(ip)}
+                    >
+                      <Text style={ControllerStyle.discoveredRoverText}>RE-RASSOR ({ip})</Text>
+                      <Text style={ControllerStyle.discoveredRoverUseText}>USE</Text>
+                    </TouchableOpacity>
+                  ))
+                ) : (
+                  <Text style={ControllerStyle.noRoversText}>
+                    No rover was found. Confirm that this device and the rover are on the same Wi-Fi network.
+                  </Text>
+                )}
+                <TouchableOpacity
+                  style={ControllerStyle.discoveryModalCloseButton}
+                  onPress={() => this.setState({ discoveryModalVisible: false })}
+                >
+                  <Text style={ControllerStyle.discoveryModalCloseText}>CLOSE</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
 
           <StatusBar backgroundColor="#2E3030" barStyle="dark-content" />
 
