@@ -183,7 +183,7 @@ const ControllerStyle = StyleSheet.create({
   },
 
   connectionCard: {
-    width: '70%',
+    width: '60%',
     height: undefined,
     minHeight: 0,
     marginVertical: 0,
@@ -208,11 +208,10 @@ const ControllerStyle = StyleSheet.create({
     borderRadius: 8,
     textAlign: 'center',
     textAlignVertical: 'center',
-    // height: '20%',
     height: (2 * normalize(45, 1.5)),
     lineHeight: (2 * normalize(45, 1.8)),
     width: '30%',
-    marginTop: 5,
+    marginTop: 0,
     marginBottom: 15
   },
 
@@ -253,7 +252,7 @@ const ControllerStyle = StyleSheet.create({
   },
 
   connectionConnectText: {
-    fontSize: 26,
+    fontSize: 20,
     lineHeight: 30,
   },
 
