@@ -17,7 +17,7 @@ const ControllerStyle = StyleSheet.create({
     width: '12%',
     alignSelf: 'flex-end',
     position: 'relative',
-    right: 20,
+    right: 17,
     bottom: 10,
     overflow: 'hidden',
     resizeMode: 'cover',
