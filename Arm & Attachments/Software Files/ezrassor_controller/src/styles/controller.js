@@ -301,6 +301,8 @@ const ControllerStyle = StyleSheet.create({
     height: 72,
     alignSelf: 'auto',
     right: undefined,
+    resizeMode: 'contain',
+    overflow: 'visible',
   },
 
   connectionHelpButton: {
