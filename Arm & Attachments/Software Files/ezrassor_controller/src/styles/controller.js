@@ -217,25 +217,26 @@ const ControllerStyle = StyleSheet.create({
   },
 
   primaryConnectButton: {
-    flex: 1,
+    width: '42%',
     backgroundColor: '#fff',
     margin: 0,
-    height: '100%',
+    height: 64,
   },
 
   connectionActionRow: {
     width: '62%',
-    height: 56,
+    height: 64,
     flexDirection: 'row',
     alignItems: 'stretch',
     justifyContent: 'space-between',
-    columnGap: 12,
+    columnGap: 0,
     marginTop: 2,
     marginBottom: 8,
   },
 
   offlinePreviewButton: {
-    flex: 1,
+    width: '54%',
+    height: 64,
     backgroundColor: '#fff',
     borderRadius: 8,
     justifyContent: 'center',
@@ -246,12 +247,14 @@ const ControllerStyle = StyleSheet.create({
   offlinePreviewButtonText: {
     color: '#202323',
     fontFamily: 'NASA',
-    fontSize: normalize(14, 1),
+    fontSize: 18,
+    lineHeight: 21,
     textAlign: 'center',
   },
 
-  connectionActionText: {
-    fontSize: normalize(20, 1),
+  connectionConnectText: {
+    fontSize: 26,
+    lineHeight: 30,
   },
 
   findRoverButton: {
@@ -272,7 +275,7 @@ const ControllerStyle = StyleSheet.create({
   findRoverButtonText: {
     color: '#fff',
     fontFamily: 'NASA',
-    fontSize: normalize(27, 1.2),
+    fontSize: 22,
   },
 
   discoveryMessage: {
@@ -311,8 +314,8 @@ const ControllerStyle = StyleSheet.create({
   },
 
   connectionHelpButtonText: {
-    fontSize: normalize(22, 1),
-    lineHeight: normalize(26, 1),
+    fontSize: 28,
+    lineHeight: 32,
   },
 
   discoveryModalBackdrop: {
