@@ -131,7 +131,8 @@ export default class IPConnect extends React.Component {
     this.setState({
       isFindingRover: true,
       discoveryMessage: 'Searching the local network for RE-RASSOR…',
-      discoveredRovers: []
+      discoveredRovers: [],
+      discoveryModalVisible: true,
     });
 
     const rovers = await findRovers();
@@ -168,8 +169,14 @@ export default class IPConnect extends React.Component {
           >
             <View style={ControllerStyle.discoveryModalBackdrop}>
               <View style={ControllerStyle.discoveryModalCard}>
-                <Text style={ControllerStyle.discoveryModalTitle}>AVAILABLE ROVERS</Text>
-                {this.state.discoveredRovers.length ? (
+                <Text style={ControllerStyle.discoveryModalTitle}>
+                  {this.state.isFindingRover ? 'FINDING ROVER IP ADDRESS' : 'AVAILABLE ROVERS'}
+                </Text>
+                {this.state.isFindingRover ? (
+                  <Text style={ControllerStyle.noRoversText}>
+                    Scanning the local Wi-Fi network for available RE-RASSOR rovers…
+                  </Text>
+                ) : this.state.discoveredRovers.length ? (
                   this.state.discoveredRovers.map((ip) => (
                     <TouchableOpacity
                       key={ip}
@@ -208,7 +215,7 @@ export default class IPConnect extends React.Component {
           <View style={ControllerStyle.connectionBody}>
 
             {/* FSI logo. */}
-            <Image source={logo} style={ControllerStyle.fsiLogo} />
+            <Image source={logo} style={[ControllerStyle.fsiLogo, ControllerStyle.connectionFsiLogo]} />
 
             {/* Inner-body container. */}
             <View style={[ControllerStyle.containerTwo, ControllerStyle.connectionCard]} >
@@ -308,12 +315,12 @@ export default class IPConnect extends React.Component {
             {/* Help button. */}
             <TouchableOpacity
               activeOpacity={0.95}
-              style={[ControllerStyle.buttonContainer]}
+              style={[ControllerStyle.buttonContainer, ControllerStyle.connectionHelpButton]}
               onPress={() => {
                 this.props.navigation.navigate('Connection Help Screen');
               }}
             >
-              <Text adjustsFontSizeToFit={true} numberOfLines={1} style={[ControllerStyle.buttonText]}>
+              <Text adjustsFontSizeToFit={true} numberOfLines={1} style={[ControllerStyle.buttonText, ControllerStyle.connectionHelpButtonText]}>
                 Help
               </Text>
             </TouchableOpacity>

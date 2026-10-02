@@ -177,16 +177,17 @@ const ControllerStyle = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingTop: 8,
-    paddingBottom: 24,
+    justifyContent: 'center',
+    paddingVertical: 12,
+    position: 'relative',
   },
 
   connectionCard: {
     width: '70%',
-    height: '78%',
+    height: undefined,
+    minHeight: 0,
     marginVertical: 0,
-    paddingVertical: 6,
+    paddingVertical: 18,
     backgroundColor: '#3a3d3d',
     borderWidth: 1,
     borderColor: '#646a6a',
@@ -224,7 +225,7 @@ const ControllerStyle = StyleSheet.create({
 
   connectionActionRow: {
     width: '62%',
-    height: normalize(54, 1),
+    height: 56,
     flexDirection: 'row',
     alignItems: 'stretch',
     justifyContent: 'space-between',
@@ -245,12 +246,12 @@ const ControllerStyle = StyleSheet.create({
   offlinePreviewButtonText: {
     color: '#202323',
     fontFamily: 'NASA',
-    fontSize: normalize(20, 1.2),
+    fontSize: normalize(14, 1),
     textAlign: 'center',
   },
 
   connectionActionText: {
-    fontSize: normalize(27, 1),
+    fontSize: normalize(20, 1),
   },
 
   findRoverButton: {
@@ -287,6 +288,31 @@ const ControllerStyle = StyleSheet.create({
   connectionIpInput: {
     height: normalize(58, 1.2),
     marginVertical: 5,
+  },
+
+  connectionFsiLogo: {
+    position: 'absolute',
+    left: 20,
+    bottom: 16,
+    width: 128,
+    height: 72,
+    alignSelf: 'auto',
+    right: undefined,
+  },
+
+  connectionHelpButton: {
+    position: 'absolute',
+    right: 20,
+    bottom: 16,
+    left: undefined,
+    width: 132,
+    height: 52,
+    alignSelf: 'auto',
+  },
+
+  connectionHelpButtonText: {
+    fontSize: normalize(22, 1),
+    lineHeight: normalize(26, 1),
   },
 
   discoveryModalBackdrop: {

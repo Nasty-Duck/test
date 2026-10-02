@@ -16,8 +16,13 @@ const ROVER_CANDIDATES = [
 ];
 
 const ROVER_DISCOVERY_PORT = '5000';
-const ROVER_DISCOVERY_SUBNET = '192.168.10';
-const DISCOVERY_BATCH_SIZE = 20;
+const ROVER_DISCOVERY_SUBNETS = [
+  '192.168.1',
+  '192.168.0',
+  '192.168.10',
+  '10.0.0',
+];
+const DISCOVERY_BATCH_SIZE = 40;
 
 /**
  * Check if we can reach a specified IP + port.
@@ -48,47 +53,24 @@ export async function isIpReachable(ip, timeoutTime = DEFAULT_TIMEOUT_TIME, verb
 }
 
 /**
- * Find a rover on the current local network using its supported local host
- * names and the standard RE-RASSOR deployment addresses.
- *
- * A React Native/Expo application cannot read a router's DHCP table without a
- * native network entitlement.  This keeps discovery useful on the supported
- * rover configurations while avoiding a broad, slow port scan of a user's
- * network.  The saved address is tried first so reconnecting after a screen
- * change is immediate.
- *
- * @param {string|null} savedIp Last successfully used rover address.
- * @return {Promise<string|null>} Reachable rover address, if one is found.
- */
-export async function findRover(savedIp = null) {
-  const candidates = [...new Set([savedIp, ...ROVER_CANDIDATES].filter(Boolean))];
-
-  for (const candidate of candidates) {
-    if (await isIpReachable(candidate, 1200)) {
-      return candidate;
-    }
-  }
-
-  return null;
-}
-
-/**
- * Search for all rover services on the standard RE-RASSOR LAN deployment.
+ * Search for all rover services on the supported RE-RASSOR LAN deployments.
  *
  * The search intentionally does not use the text field or saved IP: discovery
  * must work before an operator knows an address.  The deployed rover image
- * uses port 5000 on the 192.168.10.x LAN; local host names and the legacy
- * controller addresses are checked too.  Requests are batched so discovery
- * remains responsive instead of issuing hundreds of connections at once.
+ * uses port 5000 on common private Wi-Fi subnets; local host names and legacy
+ * controller addresses are checked too. Requests are batched so discovery
+ * remains responsive instead of issuing all connections at once.
  *
  * @param {number} timeoutTime Per-address timeout in milliseconds.
  * @param {number} batchSize Number of concurrent checks.
  * @return {Promise<string[]>} All reachable rover service addresses.
  */
-export async function findRovers(timeoutTime = 700, batchSize = DISCOVERY_BATCH_SIZE) {
-  const subnetCandidates = Array.from(
-    { length: 253 },
-    (_, index) => `${ROVER_DISCOVERY_SUBNET}.${index + 2}:${ROVER_DISCOVERY_PORT}`
+export async function findRovers(timeoutTime = 500, batchSize = DISCOVERY_BATCH_SIZE) {
+  const subnetCandidates = ROVER_DISCOVERY_SUBNETS.flatMap((subnet) =>
+    Array.from(
+      { length: 253 },
+      (_, index) => `${subnet}.${index + 2}:${ROVER_DISCOVERY_PORT}`
+    )
   );
   const candidates = [...new Set([...ROVER_CANDIDATES, ...subnetCandidates])];
   const found = [];
