@@ -5,11 +5,15 @@ const DEFAULT_EXT = '/';
 
 export default class EZRASSOR {
 
-    constructor(host, route = '') {
+    constructor(host, route = '', options = {}) {
         this.host = host;
         this.route = route;
+        this.mockMode = options.mockMode === true;
+        this.onMockCommand = options.onMockCommand;
         this.setCoordinate(0, 0);
-        this.allStop();
+        if (!this.mockMode) {
+            this.allStop();
+        }
     }
 
     // Getters and Setters
@@ -125,6 +129,17 @@ export default class EZRASSOR {
             back_drum_instruction: 0
         }
 
+        if (this.mockMode) {
+            if (this.onMockCommand) {
+                this.onMockCommand({
+                    part: Robot.ALL,
+                    operation: Operation.STOP,
+                    payload: JSON.parse(this.twistMsg),
+                });
+            }
+            return;
+        }
+
         HTTP.doPost(this.apiPath, this.twistMsg, DEFAULT_EXT);
     }
 
@@ -161,6 +176,17 @@ export default class EZRASSOR {
                 console.log('Invalid robot part selected');
                 return;
         }
+        if (this.mockMode) {
+            if (this.onMockCommand) {
+                this.onMockCommand({
+                    part,
+                    operation,
+                    payload: JSON.parse(this.twistMsg),
+                });
+            }
+            return;
+        }
+
         HTTP.doPost(this.apiPath, this.twistMsg, DEFAULT_EXT);
     }
 }
