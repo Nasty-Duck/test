@@ -51,7 +51,9 @@ export default class EZRASSOR {
         const split = coordinates.split(',');
 
         const x = split[0] || '0';
-        const y = (split.length === 2 && split[1] !== '') ? split[1] : '0';
+        if (split.length == 2 && split[1] !== ''){
+            y = split[1];
+        }
 
         this._coordinate = {
             x: parseInt(x, 10) || 0,
@@ -59,7 +61,7 @@ export default class EZRASSOR {
         };
     }
 
-    // Build complete API path for HTTP requests.
+    // Build complete apiPath for HTTP requests
     get apiPath() {
         return this.host + this.route;
     }
@@ -69,7 +71,7 @@ export default class EZRASSOR {
         return JSON.stringify(this._twistMsg);
     }
 
-    // Update only the instruction needed.
+    // Update only the instruction needed
     updateTwistMsg(instruction) {
         this._twistMsg = instruction;
     }
@@ -102,7 +104,7 @@ export default class EZRASSOR {
         return true;
     }
 
-    // Kept for compatibility with the existing autonomy controller.
+    // Kept for compatibility with the existing autonomy controller. Still need to be complete.
     updateAutonomyTwistMsg(instruction) {
         if (instruction === Operation.DRIVE || instruction === Operation.FULLAUTONOMY) {
             this._twistMsg = {
@@ -130,7 +132,7 @@ export default class EZRASSOR {
         return HTTP.doPost(this.apiPath, this.twistMsg, DEFAULT_EXT);
     };
 
-    // Execute the corresponding robot command from the enumeration items passed in.
+    // Execute the corresponding robot command from the enumeration items passed in
     executeRobotCommand(part, operation) {
         if (part === Robot.ALL && operation === Operation.STOP) {
             return this.allStop();
