@@ -402,7 +402,7 @@ export default class ControllerScreen extends React.Component {
               {/* Center stop button: reset wheel speed to zero. */}
               <TouchableOpacity
                 accessibilityLabel="Stop wheels"
-                style={{ width: 58, height: 58, alignSelf: 'center', marginHorizontal: 4, backgroundColor: '#b3261e', borderRadius: 4, elevation: 5, justifyContent: 'center', alignItems: 'center' }}
+                style={{ width: 58, height: 58, alignSelf: 'center', marginHorizontal: 4, backgroundColor: '#5D6061', borderRadius: 4, elevation: 5, justifyContent: 'center', alignItems: 'center' }}
                 onPress={() => { this.sendOperation(Robot.WHEELS, WheelOperation.STOP); }}
               >
                 <FontAwesome name="stop" size={24} color="#fff" />
