@@ -5,15 +5,19 @@ const DEFAULT_EXT = '/';
 
 export default class EZRASSOR {
 
-    constructor(host, route = '', options = {}) {
+    constructor(host, route = '') {
         this.host = host;
         this.route = route;
-        this.mockMode = options.mockMode === true;
-        this.onMockCommand = options.onMockCommand;
-        this.setCoordinate(0, 0);
-        if (!this.mockMode) {
-            this.allStop();
-        }
+        this.setCoordinate('0,0');
+        this._twistMsg = {
+            autonomous_toggles: 0,
+            target_coordinate: this.coordinate,
+            wheel_instruction: 'none',
+            front_arm_instruction: 0,
+            back_arm_instruction: 0,
+            front_drum_instruction: 0,
+            back_drum_instruction: 0
+        };
     }
 
     // Getters and Setters
@@ -125,19 +129,8 @@ export default class EZRASSOR {
             back_drum_instruction: 0
         };
 
-        if (this.mockMode) {
-            if (this.onMockCommand) {
-                this.onMockCommand({
-                    part: Robot.ALL,
-                    operation: Operation.STOP,
-                    payload: JSON.parse(this.twistMsg),
-                });
-            }
-            return;
-        }
-
-        HTTP.doPost(this.apiPath, this.twistMsg, DEFAULT_EXT);
-    }
+        return HTTP.doPost(this.apiPath, this.twistMsg, DEFAULT_EXT);
+    };
 
     // Execute the corresponding robot command from the enumeration items passed in
     executeRobotCommand(part, operation) {
@@ -170,17 +163,7 @@ export default class EZRASSOR {
                 console.log('Invalid robot part selected');
                 return;
         }
-        if (this.mockMode) {
-            if (this.onMockCommand) {
-                this.onMockCommand({
-                    part,
-                    operation,
-                    payload: JSON.parse(this.twistMsg),
-                });
-            }
-            return;
-        }
 
-        HTTP.doPost(this.apiPath, this.twistMsg, DEFAULT_EXT);
+        return HTTP.doPost(this.apiPath, this.twistMsg, DEFAULT_EXT);
     }
 }
