@@ -42,10 +42,19 @@ export default class ControllerScreen extends React.Component {
       control: 0,
       xy: '0,0',
       ip: '',
-      offlineMode: false,
+      offlineMode: props.route.params?.offlineMode === true,
+      mockMode: props.route.params?.offlineMode === true,
+      mockCommandLog: [],
     };
 
-    this.EZRASSOR = new EZRASSOR(this.state.ip);
+    this.EZRASSOR = new EZRASSOR(this.state.ip, '', {
+      mockMode: this.state.offlineMode,
+      onMockCommand: (entry) => {
+        this.setState((state) => ({
+          mockCommandLog: [...state.mockCommandLog.slice(-5), entry],
+        }));
+      },
+    });
   }
 
   async componentDidMount() {
@@ -54,6 +63,7 @@ export default class ControllerScreen extends React.Component {
 
     const offlineMode = this.props.route.params?.offlineMode === true;
     this.setState({ isLoading: false, offlineMode });
+    this.EZRASSOR.mockMode = this.state.mockMode;
 
     this._unsubscribe = this.props.navigation.addListener('focus', async () => {
       this.getIpFromStorage();
@@ -63,6 +73,9 @@ export default class ControllerScreen extends React.Component {
     if (!offlineMode) {
       let pollCount = 0;
       this.connectionPoller = setInterval(async () => {
+        if (this.state.mockMode) {
+          return;
+        }
         if (await isIpReachable(this.state.ip, CONNECTION_POLLING_TIMEOUT)) {
           if (CONNECTION_POLLING_VERBOSE) {
             console.log(`Connection poll attempt ${++pollCount} succeeded...`);
@@ -143,6 +156,12 @@ export default class ControllerScreen extends React.Component {
     });
   }
 
+  toggleMockMode() {
+    const mockMode = !this.state.mockMode;
+    this.EZRASSOR.mockMode = mockMode;
+    this.setState({ mockMode });
+  }
+
   render() {
     // I.e., don't do full render if font is still loading...
     if (this.state.isLoading) {
@@ -153,6 +172,19 @@ export default class ControllerScreen extends React.Component {
       <View style={ControllerStyle.container}>
 
         <StatusBar hidden />
+
+        {this.state.mockMode && (
+          <View style={{ position: 'absolute', zIndex: 100, bottom: 6, right: 6, width: 300, maxHeight: 130, padding: 8, backgroundColor: '#202124', borderRadius: 6 }}>
+            <Text style={{ color: '#8BE9FD', fontWeight: 'bold', marginBottom: 4 }}>MOCK API MODE — no rover requests sent</Text>
+            {this.state.mockCommandLog.length === 0 ? (
+              <Text style={{ color: '#fff' }}>Press a control to record its command.</Text>
+            ) : this.state.mockCommandLog.slice(-4).map((entry, index) => (
+              <Text key={index} numberOfLines={2} style={{ color: '#fff', fontSize: 10 }}>
+                {entry.part}/{entry.operation}: {JSON.stringify(entry.payload)}
+              </Text>
+            ))}
+          </View>
+        )}
 
         {/* Autonomy popup modal. */}
         <Modal
@@ -328,6 +360,15 @@ export default class ControllerScreen extends React.Component {
               size={35}
               color="#fff"
             />
+          </TouchableOpacity>
+
+          {/* Toggle a safe local mock that records commands without network requests. */}
+          <TouchableOpacity
+            accessibilityLabel={this.state.mockMode ? "Disable mock API mode" : "Enable mock API mode"}
+            style={{ paddingHorizontal: 8, paddingVertical: 5, marginHorizontal: 4, backgroundColor: this.state.mockMode ? '#146c43' : '#444', borderRadius: 4, justifyContent: 'center' }}
+            onPress={() => this.toggleMockMode()}
+          >
+            <Text style={{ color: '#fff', fontSize: 11, fontWeight: 'bold' }}>{this.state.mockMode ? 'MOCK ON' : 'MOCK OFF'}</Text>
           </TouchableOpacity>
 
           {/* Arm control mode switch. */}
