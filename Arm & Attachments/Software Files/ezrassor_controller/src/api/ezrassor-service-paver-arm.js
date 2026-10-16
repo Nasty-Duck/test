@@ -1,4 +1,4 @@
-import { Robot, Operation } from 'ezrassor-app/src/enumerations/robot-commands-paver-arm';
+import {Robot, Operation} from 'ezrassor-app/src/enumerations/robot-commands-paver-arm';
 import HTTP from 'ezrassor-app/src/api/web-commands';
 
 const DEFAULT_EXT = '/';
@@ -48,7 +48,10 @@ export default class EZRASSOR {
         const split = coordinates.split(',');
 
         const x = split[0] || '0';
-        const y = (split.length === 2 && split[1] !== '') ? split[1] : '0';
+        var y = '0';
+        if (split.length == 2 && split[1] !== ''){
+            y = split[1];
+        }
 
         this._coordinate = {
             x: parseInt(x, 10) || 0,
@@ -56,7 +59,7 @@ export default class EZRASSOR {
         };
     }
 
-    // Build complete API path for HTTP requests.
+    // Build complete apipath for HTTP requests
     get apiPath() {
         return this.host + this.route;
     }
@@ -66,12 +69,12 @@ export default class EZRASSOR {
         return JSON.stringify(this._twistMsg);
     }
 
-    // Update only the instruction needed.
+    // Update only the instruction needed
     updateTwistMsg(instruction) {
         this._twistMsg = instruction;
     }
 
-    // Kept for compatibility with the existing autonomy controller.
+    // Kept for compatibility with the existing autonomy controller. Still need to be complete
     updateAutonomyTwistMsg(instruction) {
         if (instruction === Operation.FULLAUTONOMY) {
             this._twistMsg = { partial_autonomy: instruction };
