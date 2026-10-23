@@ -15,7 +15,7 @@ const ROVER_CANDIDATES = [
   `rerassor.local:${ROVER_PORT}`,
 ];
 
-const ROVER_DISCOVERY_PORT = ROVER_PORT;
+const ROVER_DISCOVERY_PORT = '5000';
 const ROVER_DISCOVERY_SUBNETS = [
   '192.168.1',
   '192.168.0',
@@ -57,7 +57,7 @@ export async function isIpReachable(ip, timeoutTime = DEFAULT_TIMEOUT_TIME, verb
  *
  * The search intentionally does not use the text field or saved IP: discovery
  * must work before an operator knows an address.  The deployed rover image
- * uses the same port as the manual connection on common private Wi-Fi subnets; local host names and legacy
+ * uses port 5000 on common private Wi-Fi subnets; local host names and legacy
  * controller addresses are checked too. Requests are batched so discovery
  * remains responsive instead of issuing all connections at once.
  *
